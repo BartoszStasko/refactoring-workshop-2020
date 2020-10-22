@@ -50,8 +50,10 @@ private:
     Direction m_currentDirection;
     std::list<Segment> m_segments;
 
-    void firstTry(EventT<TimeoutInd> const& timerEvent);
-    void handlerDirectionInd(EventT<DirectionInd> const& timerEvent);
+    void handleTimeoutInd(EventT<TimeoutInd> const&);
+    void handleDirectionInd(EventT<DirectionInd> const&);
+    void handleFoodInd(EventT<FoodInd> const&);
+    void handleFoodResp(EventT<FoodResp> const&);
 };
 
 } // namespace Snake
