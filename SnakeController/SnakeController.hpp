@@ -5,6 +5,7 @@
 
 #include "IEventHandler.hpp"
 #include "SnakeInterface.hpp"
+#include "EventT.hpp"
 
 class Event;
 class IPort;
@@ -48,6 +49,9 @@ private:
 
     Direction m_currentDirection;
     std::list<Segment> m_segments;
+
+    void firstTry(EventT<TimeoutInd> const& timerEvent);
+    void handlerDirectionInd(EventT<DirectionInd> const& timerEvent);
 };
 
 } // namespace Snake
