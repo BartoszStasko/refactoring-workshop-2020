@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <functional>
+#include <map>
 
 #include "IEventHandler.hpp"
 #include "SnakeInterface.hpp"
@@ -22,7 +23,13 @@ struct UnexpectedEventException : std::runtime_error
     UnexpectedEventException();
 };
 
-class Controller : public IEventHandler
+struct Map
+{
+    std::pair<int, int> MapDimension;
+    std::pair<int, int> FoodPosition;
+};
+
+class Controller : public IMasterEventHandler
 {
 public:
     Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePort, std::string const& p_config);
@@ -31,14 +38,19 @@ public:
     Controller& operator=(Controller const& p_rhs) = delete;
 
     void receive(std::unique_ptr<Event> e) override;
+    void registerEventHandler(std::uint32_t messageId, std::unique_ptr<IEventHandler>&& eventHandler) override;
 
 private:
     IPort& m_displayPort;
     IPort& m_foodPort;
     IPort& m_scorePort;
 
-    std::pair<int, int> m_mapDimension;
-    std::pair<int, int> m_foodPosition;
+    // std::pair<int, int> m_mapDimension;
+    // std::pair<int, int> m_foodPosition;
+
+    Map m_map;
+
+    std::map<std::uint32_t, std::unique_ptr<IEventHandler>> m_eventHandlerMap;
 
     struct Segment
     {
@@ -54,6 +66,7 @@ private:
     void handleFoodInd(std::unique_ptr<Event>);
     void handleFoodResp(std::unique_ptr<Event>);
     void handlePauseInd(std::unique_ptr<Event>);
+
 
     bool isSegmentAtPosition(int x, int y) const;
     Segment calculateNewHead() const;
