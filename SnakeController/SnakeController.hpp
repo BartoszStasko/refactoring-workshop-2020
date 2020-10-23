@@ -29,6 +29,13 @@ struct Map
     std::pair<int, int> FoodPosition;
 };
 
+// struct Gateways
+// {
+//     IPort& m_displayPort;
+//     IPort& m_foodPort;
+//     IPort& m_scorePort;
+// };
+
 class Controller : public IMasterEventHandler
 {
 public:
